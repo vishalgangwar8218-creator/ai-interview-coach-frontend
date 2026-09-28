@@ -1,17 +1,21 @@
-# ai_interview_coach
+# AI Interview Coach (Flutter Frontend)
 
-A new Flutter project.
+An advanced AI-powered mock interview application built with Flutter using MVVM architecture. It helps candidates practice domain-specific interviews (Flutter, Android, Java & Spring Boot, Python) with real-time AI feedback and history tracking.
 
-## Getting Started
+## 🚀 Features
+- **Secure Authentication:** Sign Up and Sign In screens with robust form validation and password visibility toggle.
+- **Domain Selection:** Choose from multiple technical roles and difficulty levels (Basic, Medium, Advanced).
+- **AI Mock Interview Room:** Interactive session simulating real technical interviews.
+- **History Tracking:** View past interviews with scores and detailed scrollable feedback popups.
+- **Clean MVVM Architecture:** Structured state management and decoupled services.
 
-This project is a starting point for a Flutter application.
+## 🛠️ Tech Stack
+- **Framework:** Flutter (Dart)
+- **State Management:** MVVM Pattern
+- **UI Styling:** Google Fonts (Poppins), Custom Dark Theme
+- **Networking:** HTTP Package for REST API integration
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## ⚙️ Getting Started Locally
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/vishal-gangwar/ai-interview-coach-frontend.git
