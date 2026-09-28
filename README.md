@@ -1,6 +1,6 @@
 # AI Interview Coach (Flutter Frontend)
 
-An advanced AI-powered mock interview application built with Flutter using MVVM architecture. It helps candidates practice domain-specific interviews (Flutter, Android, Java & Spring Boot, Python) with real-time AI feedback and history tracking.
+An advanced AI-powered mock interview application built with Flutter using MVVM architecture. It helps candidates practice domain-specific interviews (Flutter,  Java & Spring Boot) with real-time AI feedback and history tracking.
 
 ## 🚀 Features
 - **Secure Authentication:** Sign Up and Sign In screens with robust form validation and password visibility toggle.
