@@ -43,122 +43,134 @@ class _SignupScreenState extends State<SignupScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = MediaQuery.of(context).size.width > 600;
+
     return Scaffold(
       backgroundColor: const Color(0xFF12121A),
       appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0, iconTheme: const IconThemeData(color: Colors.white)),
-      body: Padding(
-          padding: const EdgeInsets.all(24.0),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Create Account",
-                  style: GoogleFonts.poppins(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Join to track your interview progress",
-                  style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey[400]),
-                ),
-                const SizedBox(height: 32),
-                TextFormField(
-                  controller: _nameController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    labelText: "Full Name",
-                    labelStyle: TextStyle(color: Colors.grey[400]),
-                    filled: true,
-                    fillColor: const Color(0xFF1E1E2C),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                  ),
-                  validator: (value) {
-                    if(value == null || value.trim().isEmpty) {
-                      return 'Please enter your full name';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-
-                TextFormField(
-                  controller: _emailController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                    labelStyle: TextStyle(color: Colors.grey[400]),
-                    filled: true,
-                    fillColor: const Color(0xFF1E1E2C),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                  ),
-                  validator: (value) {
-                    if(value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if(!value.contains('@') || !value.contains('.')) {
-                      return 'Please enter a valid email address';
-                    }
-
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: _obscuredPassword,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                    labelStyle: TextStyle(color: Colors.grey[400]),
-                    filled: true,
-                    fillColor: const Color(0xFF1E1E2C),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscuredPassword ? Icons.visibility_off : Icons.visibility,
-                        color: Colors.grey[400],
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 450), // Web ke liye width limit
+          child: Container(
+            margin: isDesktop ? const EdgeInsets.all(24) : EdgeInsets.zero,
+            padding: isDesktop ? const EdgeInsets.all(32) : const EdgeInsets.all(24.0),
+            decoration: isDesktop
+                ? BoxDecoration(
+              color: const Color(0xFF181824),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.white10),
+            )
+                : null,
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Create Account",
+                      style: GoogleFonts.poppins(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Join to track your interview progress",
+                      style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey[400]),
+                    ),
+                    const SizedBox(height: 32),
+                    TextFormField(
+                      controller: _nameController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: "Full Name",
+                        labelStyle: TextStyle(color: Colors.grey[400]),
+                        filled: true,
+                        fillColor: const Color(0xFF1E1E2C),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                       ),
-                        onPressed: () {
-                        setState(() {
-                          _obscuredPassword = !_obscuredPassword;
-                        });
-                        },
+                      validator: (value) {
+                        if(value == null || value.trim().isEmpty) {
+                          return 'Please enter your full name';
+                        }
+                        return null;
+                      },
                     ),
-                  ),
-                  validator: ((value) {
-                    if(value == null || value.isEmpty) {
-                      return 'Please enter a password';
-                    }
-                    if(value.length < 6) {
-                      return 'Password must be at least 6 characters long';
-                    }
-                    return null;
-                  }),
-                ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF6C63FF) ?? const Color(0xFF6C63FF),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _emailController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                        labelStyle: TextStyle(color: Colors.grey[400]),
+                        filled: true,
+                        fillColor: const Color(0xFF1E1E2C),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                      ),
+                      validator: (value) {
+                        if(value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        if(!value.contains('@') || !value.contains('.')) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
                     ),
-                      onPressed: _isLoading ? null : _handleSignup,
-                      child: _isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : Text("Sign Up", style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
-                  ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: _obscuredPassword,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        labelStyle: TextStyle(color: Colors.grey[400]),
+                        filled: true,
+                        fillColor: const Color(0xFF1E1E2C),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscuredPassword ? Icons.visibility_off : Icons.visibility,
+                            color: Colors.grey[400],
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscuredPassword = !_obscuredPassword;
+                            });
+                          },
+                        ),
+                      ),
+                      validator: ((value) {
+                        if(value == null || value.isEmpty) {
+                          return 'Please enter a password';
+                        }
+                        if(value.length < 6) {
+                          return 'Password must be at least 6 characters long';
+                        }
+                        return null;
+                      }),
+                    ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF6C63FF),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        onPressed: _isLoading ? null : _handleSignup,
+                        child: _isLoading
+                            ? const CircularProgressIndicator(color: Colors.white)
+                            : Text("Sign Up", style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }

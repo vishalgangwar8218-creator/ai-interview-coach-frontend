@@ -133,76 +133,81 @@ class _InterviewHistoryScreenState extends State<InterviewHistoryScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: _isLoading
-        ? const Center(child: CircularProgressIndicator(color: Color(0xFF6C63FF)))
-          : _historyList.isEmpty
-            ? Center(
-               child: Text(
-               'No past interview found.',
-               style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14),
-           ),
-        )
-          : ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: _historyList.length,
-              itemBuilder: (context, index) {
-                final item = _historyList[index];
-                return GestureDetector(
-                  onTap: () => _showFeedbackPopup(context, item),
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1E1E2C),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white10),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              item['role'] ?? 'Role',
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF6C63FF),
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.greenAccent.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                'Score: ${item['overallScore']}/100',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.greenAccent,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          item['feedback'] ?? 'No feedback available.',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
-                            fontSize: 13,
-                            color: Colors.grey[400],
-                          ),
-                        ),
-                      ],
-                    ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: _isLoading
+              ? const Center(child: CircularProgressIndicator(color: Color(0xFF6C63FF)))
+              : _historyList.isEmpty
+              ? Center(
+            child: Text(
+              'No past interview found.',
+              style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14),
+            ),
+          )
+              : ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: _historyList.length,
+            itemBuilder: (context, index) {
+              final item = _historyList[index];
+              return GestureDetector(
+                onTap: () => _showFeedbackPopup(context, item),
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1E1E2C),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white10),
                   ),
-                );
-              },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            item['role'] ?? 'Role',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFF6C63FF),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.greenAccent.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              'Score: ${item['overallScore']}/100',
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.greenAccent,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        item['feedback'] ?? 'No feedback available.',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

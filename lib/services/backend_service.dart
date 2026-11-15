@@ -2,9 +2,17 @@ import 'dart:convert';
 import 'package:ai_interview_coach/models/interview_summary.dart';
 import 'package:ai_interview_coach/views/interview_summary_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class BackendService {
-  static const String baseUrl = "http://10.174.115.22:8080/api";
+
+  static String get baseUrl {
+    if (kIsWeb) {
+      return "http://localhost:8080/api"; // Web ke liye
+    } else {
+      return "http://10.174.115.22:8080/api"; // Mobile / Physical device ke liye
+    }
+  }
 
   //Sign UP
   static Future<bool> signUp(String name, String email, String password) async {

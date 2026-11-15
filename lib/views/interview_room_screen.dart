@@ -112,7 +112,7 @@ class _InterviewRoomScreenState extends State<InterviewRoomScreen> {
           });
         },
 
-        listenFor: const Duration(seconds: 120),
+        listenFor: const Duration(seconds: 60),
         pauseFor: const Duration(seconds: 5),
         localeId: "en_US",
       );
@@ -223,39 +223,43 @@ class _InterviewRoomScreenState extends State<InterviewRoomScreen> {
   void _showTranscriptSheet() {
     showModalBottomSheet(
         context: context,
-        backgroundColor: const Color(0xFF1E1E2C),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        ),
+        backgroundColor: Colors.transparent,
         builder: (context) {
-          return Container(
-            padding: const EdgeInsets.all(20),
-            height: MediaQuery.of(context).size.height * 0.5,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Live Transcript Log',
-                      style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.close, color: Colors.white70),
-                    ),
-                  ],
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                height: MediaQuery.of(context).size.height * 0.5,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF1E1E2C),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 ),
-                const Divider(color: Colors.white24),
-                const SizedBox(height: 8),
-                Expanded(
-                    child: ListView.builder(
-                      itemCount: _messages.length,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Live Transcript Log',
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close, color: Colors.white70),
+                        ),
+                      ],
+                    ),
+                    const Divider(color: Colors.white24),
+                    const SizedBox(height: 8),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: _messages.length,
                         itemBuilder: (context, index) {
                           final msg = _messages[index];
                           final isAi = msg.sender == 'AI Interview' || msg.sender == 'AI Interviewer';
@@ -292,9 +296,11 @@ class _InterviewRoomScreenState extends State<InterviewRoomScreen> {
                             ),
                           );
                         },
+                      ),
                     ),
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         }
@@ -336,118 +342,121 @@ class _InterviewRoomScreenState extends State<InterviewRoomScreen> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: const Color(0xFF6C63FF).withOpacity(0.2),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFF6C63FF)),
-              ),
-              child: Text(
-                'Role: ${widget.selectedRole}',
-                style: GoogleFonts.poppins(
-                  color: const Color(0xFF6C63FF),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-
-            Column(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SoundWaveWidget(isSpeaking: _isAiSpeaking || _isListening),
-                const SizedBox(height: 24),
-                Text(
-                  _isAiSpeaking
-                      ? 'Agora AI Interviewer is asking...'
-                      : (_isListening ? 'Listening to your answer...' : 'Processing...'),
-                  style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    color: Colors.grey[300],
-                    fontWeight: FontWeight.w500,
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF6C63FF).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: const Color(0xFF6C63FF)),
+                  ),
+                  child: Text(
+                    'Role: ${widget.selectedRole}',
+                    style: GoogleFonts.poppins(
+                      color: const Color(0xFF6C63FF),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  '"$_currentQuestion"',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    color: Colors.grey[500],
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-                if (_isListening && _lastWords.isNotEmpty)
-                  Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
-                    child: Text(
-                      'You said: "$_lastWords"',
+
+                Column(
+                  children: [
+                    SoundWaveWidget(isSpeaking: _isAiSpeaking || _isListening),
+                    const SizedBox(height: 24),
+                    Text(
+                      _isAiSpeaking
+                          ? 'Agora AI Interviewer is asking...'
+                          : (_isListening ? 'Listening to your answer...' : 'Processing...'),
                       style: GoogleFonts.poppins(
-                        fontSize: 13,
-                        color: Colors.greenAccent,
+                        fontSize: 16,
+                        color: Colors.grey[300],
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton(
-                  heroTag: 'muteBtn',
-                    backgroundColor: _isMuted ? Colors.red : const Color(0xFF1E1E2C),
-                    onPressed: () {
-                    setState(() {
-                      _isMuted = !_isMuted;
-                    });
-                    _agoraService.muteMicrophone(_isMuted);
-                    },
-                  child: Icon(
-                    _isMuted ? Icons.mic_off : Icons.mic,
-                    color: Colors.white,
-                  ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '"$_currentQuestion"',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: Colors.grey[500],
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    if (_isListening && _lastWords.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: Text(
+                          'You said: "$_lastWords"',
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            color: Colors.greenAccent,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-                const SizedBox(width: 16),
-
-                if (!_isAiSpeaking && !_isLoading)
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF6C63FF),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: 'muteBtn',
+                      backgroundColor: _isMuted ? Colors.red : const Color(0xFF1E1E2C),
+                      onPressed: () {
+                        setState(() {
+                          _isMuted = !_isMuted;
+                        });
+                        _agoraService.muteMicrophone(_isMuted);
+                      },
+                      child: Icon(
+                        _isMuted ? Icons.mic_off : Icons.mic,
+                        color: Colors.white,
                       ),
                     ),
-                    onPressed: () => _stopListeningAndSubmit(),
-                    icon: const Icon(Icons.arrow_forward),
-                    label: Text(
-                      'Next Question',
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                const SizedBox(width: 16),
+                    const SizedBox(width: 16),
 
-                FloatingActionButton.small(
-                  heroTag: 'endCallBtn',
-                    backgroundColor: Colors.redAccent,
-                    onPressed: () async {
+                    if (!_isAiSpeaking && !_isLoading)
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF6C63FF),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        onPressed: () => _stopListeningAndSubmit(),
+                        icon: const Icon(Icons.arrow_forward),
+                        label: Text(
+                          'Next Question',
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    const SizedBox(width: 16),
+
+                    FloatingActionButton.small(
+                      heroTag: 'endCallBtn',
+                      backgroundColor: Colors.redAccent,
+                      onPressed: () async {
                         _agoraService.leaveChannel();
                         _flutterTts.stop();
                         _speech.stop();
 
                         showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) => const Center(
-                              child: CircularProgressIndicator(color: Color(0xFF6C63FF)),
-                            ),
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => const Center(
+                            child: CircularProgressIndicator(color: Color(0xFF6C63FF)),
+                          ),
                         );
 
                         String fullTranscript = _messages.map((m) => "${m.sender}: ${m.text}").join("\n");
@@ -463,22 +472,24 @@ class _InterviewRoomScreenState extends State<InterviewRoomScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InterviewSummaryScreen(summary: summary),
+                              builder: (context) => InterviewSummaryScreen(summary: summary),
                             ),
                           );
                         }else {
                           Navigator.pop(context);
                         }
-                    },
-                  child: const Icon(
-                    Icons.call_end,
-                    color: Colors.white,
-                    size: 25,
-                  ),
+                      },
+                      child: const Icon(
+                        Icons.call_end,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
